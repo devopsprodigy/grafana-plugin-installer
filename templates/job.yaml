@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: installer
+        image: alpine/git
+        securityContext:
+          runAsUser: 472
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: storage
+        - mountPath: /tmp/main.sh
+          name: config
+          subPath: main.sh
+        command: ["sh"]
+        args: ["/tmp/main.sh"]
+      volumes:
+      - name: config
+        configMap:
+          name: {{ .Chart.Name }}-config
+      - name: storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.grafana.pvcName }}

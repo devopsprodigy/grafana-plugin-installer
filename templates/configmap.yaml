@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+  labels:
+    app: kubegraf-installer
+data:
+  main.sh: |
+    #!/bin/sh
+    if [ ! -d {{ .Values.kubegraf.path }} ] ; then
+      git clone --branch {{ .Values.kubegraf.tag }} {{ .Values.kubegraf.repo }} {{ .Values.kubegraf.path }}
+    else
+      git -C {{ .Values.kubegraf.path }} pull
+      git -C {{ .Values.kubegraf.path }} checkout {{ .Values.kubegraf.tag }}
+    fi

@@ -1,0 +1,7 @@
+1. Check Job status:
+
+kubectl get job -l app={{ .Chart.Name }} -n {{ .Release.Namespace }}
+
+2. Restart Grafana pods:
+
+kubectl delete po -l app=grafana -n {{ .Release.Namespace }}
