@@ -12,7 +12,7 @@ git clone https://github.com/devopsprodigy/grafana-plugin-installer.git
 
 Install chart:
 ```
-helm install ./grafana-kubegraf-installer \ 
+helm install ./grafana-plugin-installer \ 
     --name YOUR_CHART_NAME \
     --set grafana.pvcName=GRAFANA_PVC_NAME \
     --set plugin.name=PLUGIN_NAME \
