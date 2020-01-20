@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Chart.Name }}
+  name: "{{ include "grafana-plugin-installer.name" . }}"
   labels:
-    app: {{ .Chart.Name }}
+    app: "{{ include "grafana-plugin-installer.name" . }}"
 spec:
   template:
     spec:
@@ -12,19 +12,22 @@ spec:
       - name: installer
         image: alpine/git
         securityContext:
-          runAsUser: 472
+          runAsUser: {{ .Values.grafana.runAsUser }}
         volumeMounts:
-        - mountPath: /var/lib/grafana
+        - mountPath: "{{ .Values.grafana.dataDir }}"
           name: storage
         - mountPath: /tmp/main.sh
           name: config
           subPath: main.sh
+        env:
+        - name: GRAFANA_PLUGIN_DIR
+          value: "{{ .Values.grafana.dataDir }}/plugins/{{ .Values.plugin.name }}"
         command: ["sh"]
         args: ["/tmp/main.sh"]
       volumes:
       - name: config
         configMap:
-          name: {{ .Chart.Name }}-config
+          name: "{{ include "grafana-plugin-installer.name" . }}-config"
       - name: storage
         persistentVolumeClaim:
           claimName: {{ .Values.grafana.pvcName }}

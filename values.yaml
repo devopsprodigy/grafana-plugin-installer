@@ -5,9 +5,11 @@
 ## Name pf PersistenceVolumeClaim used for persistence
 grafana:
   pvcName: grafana-pvc
+  dataDir: "/var/lib/grafana"
+  runAsUser: 472
 
-kubegraf:
-  path: "/var/lib/grafana/plugins/kubegraf"
+plugin:
+  name: "kubegraf"
   repo: "https://github.com/devopsprodigy/kubegraf.git"
   # plugin version to install
   tag: master
