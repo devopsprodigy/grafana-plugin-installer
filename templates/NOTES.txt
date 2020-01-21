@@ -1,6 +1,6 @@
 1. Check Job status:
 
-kubectl get job -l app={{ .Chart.Name }} -n {{ .Release.Namespace }}
+kubectl get job -l app={{ include "grafana-plugin-installer.name" . }},tag={{ .Values.plugin.tag }} -n {{ .Release.Namespace }}
 
 2. Restart Grafana pods:
 
