@@ -21,6 +21,18 @@ helm install ./grafana-plugin-installer \
     --namespace GRAFANA_NAMESPACE
 ```
 
+**OR**
+
+Upgrade existing chart:
+```
+helm upgrade YOUR_CHART_NAME ./grafana-plugin-installer \ 
+    --set grafana.pvcName=GRAFANA_PVC_NAME \
+    --set plugin.name=PLUGIN_NAME \
+    --set plugin.repo=PLUGIN_REPO_URL \
+    --set plugin.tag=PLUGIN_REPO_BRANCH \
+    --namespace GRAFANA_NAMESPACE
+```
+
 Check job completion:
 ```
 kubectl get job -l app=PLUGIN_NAME-grafana-plugin-installer -n GRAFANA_NAMESPACE 
