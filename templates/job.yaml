@@ -1,9 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ include "grafana-plugin-installer.name" . }}"
+  name: "{{ include "grafana-plugin-installer.name" . }}-{{ .Values.plugin.tag }}"
   labels:
     app: "{{ include "grafana-plugin-installer.name" . }}"
+    tag: "{{ .Values.plugin.tag }}"
 spec:
   template:
     spec:
