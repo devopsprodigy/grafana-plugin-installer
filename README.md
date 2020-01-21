@@ -35,7 +35,7 @@ helm upgrade YOUR_CHART_NAME ./grafana-plugin-installer \
 
 Check job completion:
 ```
-kubectl get job -l app=PLUGIN_NAME-grafana-plugin-installer -n GRAFANA_NAMESPACE 
+kubectl get job -l app=PLUGIN_NAME-grafana-plugin-installer,tag=PLUGIN_REPO_BRANCH -n GRAFANA_NAMESPACE 
 ```
 
 Restart Grafana pods:
