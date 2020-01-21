@@ -4,12 +4,27 @@ metadata:
   name: "{{ include "grafana-plugin-installer.name" . }}-config"
   labels:
     app: "{{ include "grafana-plugin-installer.name" . }}"
+    tag: "{{ .Values.plugin.tag }}"
 data:
   main.sh: |
     #!/bin/sh
-    if [ ! -d $GRAFANA_PLUGIN_DIR ] ; then
+
+    function clone_plugin_repo {
       git clone --branch {{ .Values.plugin.tag }} {{ .Values.plugin.repo }} $GRAFANA_PLUGIN_DIR
-    else
+    }
+
+    function checkout_plugin_repo {
       git -C $GRAFANA_PLUGIN_DIR fetch
       git -C $GRAFANA_PLUGIN_DIR checkout {{ .Values.plugin.tag }}
+    }
+
+    if [ ! -d $GRAFANA_PLUGIN_DIR ]; then
+      clone_plugin_repo
+    else
+      if [ ! -d $GRAFANA_PLUGIN_DIR/.git ]; then
+        rm -rf $GRAFANA_PLUGIN_DIR
+        clone_plugin_repo
+      else
+        checkout_plugin_repo
+      fi
     fi

@@ -9,7 +9,7 @@ grafana:
   runAsUser: 472
 
 plugin:
-  name: "kubegraf"
+  name: "devopsprodigy-kubegraf-app"
   repo: "https://github.com/devopsprodigy/kubegraf.git"
   # plugin version to install
   tag: master
