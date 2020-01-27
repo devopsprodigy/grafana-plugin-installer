@@ -11,24 +11,20 @@ spec:
       restartPolicy: Never
       containers:
       - name: installer
-        image: alpine/git
+        image: devopsprodigy/grafana-plugin-installer:0.0.1
         securityContext:
           runAsUser: {{ .Values.grafana.runAsUser }}
         volumeMounts:
         - mountPath: "{{ .Values.grafana.dataDir }}"
           name: storage
-        - mountPath: /tmp/main.sh
-          name: config
-          subPath: main.sh
         env:
         - name: GRAFANA_PLUGIN_DIR
           value: "{{ .Values.grafana.dataDir }}/plugins/{{ .Values.plugin.name }}"
-        command: ["sh"]
-        args: ["/tmp/main.sh"]
+        - name: GRAFANA_PLUGIN_REPO
+          value: "{{ .Values.plugin.repo }}"
+        - name: GRAFANA_PLUGIN_TAG
+          value: "{{ .Values.plugin.tag }}"
       volumes:
-      - name: config
-        configMap:
-          name: "{{ include "grafana-plugin-installer.name" . }}-config"
       - name: storage
         persistentVolumeClaim:
           claimName: {{ .Values.grafana.pvcName }}
