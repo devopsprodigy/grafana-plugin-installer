@@ -14,6 +14,7 @@ spec:
         image: devopsprodigy/grafana-plugin-installer:0.0.1
         securityContext:
           runAsUser: {{ .Values.grafana.runAsUser }}
+          runAsGroup: {{ .Values.grafana.runAsGroup }}
         volumeMounts:
         - mountPath: "{{ .Values.grafana.dataDir }}"
           name: storage

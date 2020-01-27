@@ -7,6 +7,7 @@ grafana:
   pvcName: grafana-pvc
   dataDir: "/var/lib/grafana"
   runAsUser: 472
+  runAsGroup: 472
 
 plugin:
   name: "devopsprodigy-kubegraf-app"
